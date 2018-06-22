@@ -1,0 +1,15 @@
+version: "2"
+services:
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - "27017:27017"
+  app:
+    container_name: app
+    build: .
+    command: ["./wait-for-it.sh", "mongo:27017", "--", "node", "index.js"]
+    depends_on:
+      - "mongo"
+    links:
+      - mongo
